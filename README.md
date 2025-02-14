@@ -1,8 +1,5 @@
 ### Smart-Bud
-Welcome to our all-in-one solution to home gardening so everyone can get their herbs fresh 
-to use in cooking while not having to spend a single thought into plant caring. 
-You could sum it up as a miniature greenhouse fully equipped to monitor and automate the process of making your herbs grow and thrive
+Bienvenue dans notre solution tout-en-un pour un jardinage à la maison simple et à la portée de tous afin que chacun puisse disposer d'herbes fraiches à utiliser en cuisine sans avoir à s'embêter avec l'entretien des plantes. Smart Bud est en somme une serre miniature entièrement équipée pour surveiller et automatiser le processus qui permettra à vos herbes de pousser et de s'épanouir
 
-## Rig
-Smart Bud is equipped with a humidity and temperature sensor wired to an irrigation system,
-an ultrasonic distance sensor to measure the water tank's level.  
+## Equipement
+Smart Bud est équipé d'un capteur d'humidité et de température, ainsi que d'un capteur d'humidité du sol connecté avec une pompe et un système d'irrigation. Le produit est aussi équipé d'un capteur d'ultrasons qui permet de déterminer le niveau d'eau dans le réservoir. Une LED indique à l'utilisateur quand celui-ci est trop bas, afin qu'il le remplisse.
