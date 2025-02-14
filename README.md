@@ -16,7 +16,7 @@ Smart Bud est équipé d'un capteur d'humidité et de température, ainsi que d'
 ## Initialisation
 Le code a été réalisé avec Arduino IDE et tester avec Wokwi.
 
-- Après avoir téléchargé le fichier, il vous faudra installer la bibliothèque "DHT Sensor Library" d'Adafruit
+- Après avoir téléchargé le fichier "DebutCircuit.ino", il vous faudra installer la bibliothèque "DHT Sensor Library" d'Adafruit
 - Faites ensuite les branchements nécessaire (image : InstallationIRLV1)
 - Connectez l'Arduino à votre PC
 - Uploadez le code dans l'Arduino
