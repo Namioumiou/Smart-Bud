@@ -10,7 +10,7 @@ Smart Bud est équipé d'un capteur d'humidité et de température, ainsi que d'
 - 1 Capteur d'humidité et de température (DHT11 pour nous)
 - 1 Résistance 220Ω
 - 1 LED
-- 13 Câbles mâle/mâle
+- 11 Câbles mâle/mâle
 - 1 Câble USB/USB-B
 
 ## Initialisation
