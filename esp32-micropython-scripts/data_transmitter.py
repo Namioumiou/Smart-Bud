@@ -25,7 +25,7 @@ def connect_to_wifi():
     print(sta.ifconfig())
 
 
-mqtt = MQTT.MQTTClient("esp32", "192.168.1.217", 1883, user="test_un1", password="test_pwd1")
+mqtt = MQTT.MQTTClient("esp32", "192.168.57.21", 1883, user="test_un1", password="test_pwd1")
 def connect_to_mqtt_broker():
     #print("Connecting to MQTT broker")
     try:
