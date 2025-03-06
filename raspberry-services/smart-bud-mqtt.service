@@ -1,0 +1,13 @@
+[Unit]
+Description=Smart Bud service to receive data from connected sensors
+After=network.target
+After=mosquitto.service
+BindsTo=smart-bud-lora.service
+
+[Service]
+ExecStart=sudo /usr/local/bin/payload_receiver
+Type=notify-reload
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

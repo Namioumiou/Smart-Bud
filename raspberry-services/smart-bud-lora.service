@@ -1,0 +1,14 @@
+[Unit]
+Description=Smart Bud service to send devices data to TTN platform
+After=network.target
+After=smart-bud-mqtt.service
+BindsTo=smart-bud-mqtt.service
+
+[Service]
+ExecStart=/usr/local/bin/rpi-sx1262
+Type=notify-reloada
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
