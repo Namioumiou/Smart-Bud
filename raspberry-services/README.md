@@ -14,3 +14,4 @@
 **1.** `cd Smart-Bud/raspberry-services/`  
 **2.** `sudo ./setup.sh`
 
+The servics are now running in the background and sending data every 20 minutes to The Things Network.
