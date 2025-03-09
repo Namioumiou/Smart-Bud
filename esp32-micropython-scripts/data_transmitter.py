@@ -10,6 +10,8 @@ import bh1750
 import ot722d66
 import hw080
 
+BROKER_IP_ADDRESS = "192.168.57.21"
+
 uplink_interval_seconds = 5 * 60 + 10
 
 sta = N.WLAN(N.WLAN.IF_STA)
@@ -24,8 +26,7 @@ def connect_to_wifi():
     print(" Done")
     print(sta.ifconfig())
 
-
-mqtt = MQTT.MQTTClient("esp32", "192.168.57.21", 1883, user="test_un1", password="test_pwd1")
+mqtt = MQTT.MQTTClient("esp32", BROKER_IP_ADDRESS, 1883, user="test_un1", password="test_pwd1")
 def connect_to_mqtt_broker():
     #print("Connecting to MQTT broker")
     try:
@@ -106,10 +107,7 @@ while True:
         else:
             error_state = U.toggle_bit(error_state, BMX280_TEMP_BIT | BMX280_HUMI_BIT)
             th_sensor = init_bme280()
-                
-        print(temperature)
-        print(humidity)
-                
+                                
         light = 0
         if l_sensor is not None:
             light = U.float_to_fixed_point(l_sensor.one_time_hrm2(), 15, 1)
@@ -117,23 +115,17 @@ while True:
         else:
             error_state = error_state = U.toggle_bit(error_state, BH1750_BIT)
             l_sensor = init_bh1750()
-            
-        print(light)
-            
+                        
         water_level = wl_sensor.get_raw_level()
         if water_level < MIN_WL_ACCEPT:
             error_state = error_state = U.toggle_bit(error_state, OT722D66_BIT)
             water_level = 0
-        
-        print(water_level)
-        
+                
         soil_moisture = sm_sensor.measure_analog()
         if soil_moisture < MIN_SM_ACCEPT:
             error_state = error_state = U.toggle_bit(error_state, HW080_BIT)
             soil_moisture = 0
-        
-        print(soil_moisture)
-        
+                
         payload[0] = error_state
         
         payload[1:3] = temperature.to_bytes(2)
@@ -145,7 +137,6 @@ while True:
         
         print(payload_str)
         
-        #print(f"Sending '{payload}' to MQTT broker on topic 'sensor_data'...")
         mqtt.publish(b"sensor_data", payload)
         
         mqtt.disconnect()
