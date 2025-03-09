@@ -23,3 +23,7 @@ echo "Reloading daemons"
 systemctl daemon-reload
 systemctl status smart-bud-lora --no-block --no-pager
 systemctl status smart-bud-mqtt --no-block --no-pager
+
+# moving msqouitto conf files to the correct location
+cp /opt/Smart-Bud/raspberry-services/mosquitto.conf /etc/mosquitto/
+cp /opt/Smart-Bud/raspberry-services/pwfile /etc/mosquitto/
