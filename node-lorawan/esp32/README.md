@@ -1,4 +1,12 @@
-# How to setup the ESP32 to measure data periodically using the given scripts
+# Partie ESP32
+
+## Schéma d'architecture  
+
+Voici le schéma d'architecture de l'ESP32 :
+
+![Schéma d'architecture de l'ESP32](./images/Architecture%20ESP32.jpg)
+
+## Sommaire
 
 For this purpose, we're gonna use Thonny to transfer the scripts. You are free to use whatever tool fits you best to transfer the files.
 

@@ -2,6 +2,8 @@ import machine      as M
 import network      as N
 import utime        as T
 import umqtt.simple as MQTT
+import esp          as E
+import esp32        as E32
 
 import utils        as U
 
@@ -10,23 +12,36 @@ import bh1750
 import ot722d66
 import hw080
 
-BROKER_IP_ADDRESS = "192.168.57.21"
-
 uplink_interval_seconds = 5 * 60 + 10
 
 sta = N.WLAN(N.WLAN.IF_STA)
 sta.active(True)
 
+import gc
+import os
+
+def df():
+  s = os.statvfs('//')
+  return ('{0} MB'.format((s[0]*s[3])/1048576))
+
+def free(full=False):
+  F = gc.mem_free()
+  A = gc.mem_alloc()
+  T = F+A
+  P = '{0:.2f}%'.format(F/T*100)
+  if not full: return P
+  else : return ('Total:{0} Free:{1} ({2})'.format(T,F,P))
+
 def connect_to_wifi():
     print("Connecting to Wi-Fi.", end="")
-    sta.connect("Wii-fit", "azertyuiop")
+    sta.connect("SFR_6B9F", "q4v9ycuxh8958r17zxkv")
     while not sta.isconnected():
         T.sleep(0.75)
         print(".", end="")
     print(" Done")
     print(sta.ifconfig())
 
-mqtt = MQTT.MQTTClient("esp32", BROKER_IP_ADDRESS, 1883, user="test_un1", password="test_pwd1")
+mqtt = MQTT.MQTTClient("esp32", "192.168.1.217", 1883, user="test_un1", password="test_pwd1")
 def connect_to_mqtt_broker():
     #print("Connecting to MQTT broker")
     try:
@@ -70,6 +85,7 @@ def init_bh1750():
 
 MIN_WL_ACCEPT = 1672
 MIN_SM_ACCEPT = 1000
+MIN_SM_REASON = 1928
 
 BMX280_TEMP_BIT = 0b00000001
 BMX280_HUMI_BIT = 0b00000010
@@ -81,6 +97,12 @@ th_sensor = init_bme280()
 l_sensor  = init_bh1750()
 wl_sensor = ot722d66.OT722D66(M.Pin(34))
 sm_sensor = hw080.HW080(M.Pin(35))
+pump      = M.Pin(14)
+
+print("Ready")
+
+print(df())
+print(free(True))
 
 while True:
     try:
@@ -107,25 +129,28 @@ while True:
         else:
             error_state = U.toggle_bit(error_state, BMX280_TEMP_BIT | BMX280_HUMI_BIT)
             th_sensor = init_bme280()
-                                
+                
         light = 0
         if l_sensor is not None:
-            light = U.float_to_fixed_point(l_sensor.one_time_hrm2(), 15, 1)
+            light = int(U.float_to_fixed_point(l_sensor.one_time_hrm2(), 15, 1), 2)
             
         else:
             error_state = error_state = U.toggle_bit(error_state, BH1750_BIT)
             l_sensor = init_bh1750()
-                        
+            
         water_level = wl_sensor.get_raw_level()
         if water_level < MIN_WL_ACCEPT:
             error_state = error_state = U.toggle_bit(error_state, OT722D66_BIT)
             water_level = 0
-                
+        
         soil_moisture = sm_sensor.measure_analog()
         if soil_moisture < MIN_SM_ACCEPT:
             error_state = error_state = U.toggle_bit(error_state, HW080_BIT)
             soil_moisture = 0
-                
+            
+        if soil_moisture < MIN_SM_REASON:
+            pump.value(1)
+        
         payload[0] = error_state
         
         payload[1:3] = temperature.to_bytes(2)
@@ -137,7 +162,10 @@ while True:
         
         print(payload_str)
         
+        #print(f"Sending '{payload}' to MQTT broker on topic 'sensor_data'...")
         mqtt.publish(b"sensor_data", payload)
+        
+        print("Published")
         
         mqtt.disconnect()
         sta.disconnect()
