@@ -12,6 +12,8 @@ import bh1750
 import ot722d66
 import hw080
 
+BROKER_IP_ADDRESS = "your_ip_address_here"
+
 uplink_interval_seconds = 5 * 60 + 10
 
 sta = N.WLAN(N.WLAN.IF_STA)
@@ -34,14 +36,14 @@ def free(full=False):
 
 def connect_to_wifi():
     print("Connecting to Wi-Fi.", end="")
-    sta.connect("SFR_6B9F", "q4v9ycuxh8958r17zxkv")
+    sta.connect("ssid", "mdp")
     while not sta.isconnected():
         T.sleep(0.75)
         print(".", end="")
     print(" Done")
     print(sta.ifconfig())
 
-mqtt = MQTT.MQTTClient("esp32", "192.168.1.217", 1883, user="test_un1", password="test_pwd1")
+mqtt = MQTT.MQTTClient("esp32", BROKER_IP_ADDRESS, 1883, user="test_un1", password="test_pwd1")
 def connect_to_mqtt_broker():
     #print("Connecting to MQTT broker")
     try:

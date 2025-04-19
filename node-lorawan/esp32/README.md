@@ -1,32 +1,62 @@
-# Comment mettre en place l'ESP32 et les capteurs ?
+# 1.1. Comment mettre en place l'ESP32 et les capteurs ?
+
+[**Retour à la table des matières du node**](../README.md)  
+[**Retour à la table des matières principale**](../../README.md)  
+<hr/>
 
 ## Schéma d'architecture  
 
 Voici le schéma d'architecture de l'ESP32 :
 
-![Schéma d'architecture de l'ESP32](./images/Architecture%20ESP32.jpg)
+![Schéma d'architecture de l'ESP32](./images/architecture-esp32.jpg)
 
-## Sommaire
+## Table des matières
 
-For this purpose, we're gonna use Thonny to transfer the scripts. You are free to use whatever tool fits you best to transfer the files.
+[**1.1.1.** Configuration de l'ESP32](#111-configuration-de-lesp32)  
+[**1.1.2.** Câblage de l'ESP32 et des capteurs](#112-câblage-de-lesp32-et-des-capteurs)  
+[**1.1.3.** Transfert des scripts sur l'ESP32](#113-transfert-des-scripts-sur-lesp32)  
 
-**1.** Open Thonny ;  
-**2.** Plug in the target ESP32 on one of your available USB ports ;  
-**3.** Open each script on the editor ;  
-**4.** For each script, press the key combination CTRL+SHIFT+S and chose "MicroPython device" ;  
+<hr/>
 
-Now, the ESP32 has all the device to make the measures from the sensors and publish to the MQTT topic on which the Raspberry is subscribed.
+### 1.1.1. Configuration de l'ESP32
 
-In order to allow the ESP32 to communicate through MQTT with the broker on the Raspberry Pi, it's necessary to change the IP adress so that the ESP can publish to it. To do so, on your Raspberry Pi, either use the `ifconfig` (normally by default in the distribution) or `ip a` (which may require you to install the `iproute2` package) to retrieve the address of the Raspberry Pi. Then, simply copy-paste it in place of the current value of BROKER_IP_ADDRESS constant (line 13) so that the ESP uses the correct address.
+Afin que l'ESP32 puisse communiquer via MQTT avec le broker se trouvant sur la Raspberry, il est nécessaire de changer l'adresse IP sur le script `data_transmitter.py` de manière à ce que l'ESP32 puisse publier dessus. Pour ce faire, sur la Raspberry Pi, exécutez soit `ifconfig` (normalement disponible par défaut dans la distrbution) ou `ip a` (qui peut nécessiter d'installer le paquet `iproute2`) afin de récupérer l'adresse IP de la Raspberry. Puis, copiez-collez simplment l'adresse à la place de la valeurs actuelle de la constante BROKER_IP_ADDRESS (ligne 15) afin que l'ESP32 utilise la bonne adresse pour communiquer avec le broker.
 
-If you wish to use the device without a PC (which you probably do), open the `boot.py` script from the ESP32's flash memory and import the `data_transmitter.py` script in it.
+Si vous souhaitez utiliser la partie ESP32 sans un PC (ce qui est probablement le cas), ouvrez le script `boot.py` depuis la mémoire flash de l'ESP32 et importez le script `data_transmitter.py` en haut du fichier.
 
 ```py
 import data_transmitter
 ```
 
-This will allow the ESP32 to immediately initialize and transmit data from the sensor to the MQTT client on the Raspberry without any other input.
+Cela permettra à l'ESP32 de s'initialiser immédiatement au lancement et de commencer à transmettre les données du capteurs vers le topic "sensor_data" pour récupération par le client MQTT sur la Raspberry sans qu'aucune autre manipulation ne soit nécéssaire.
 
-In case you're trying to test the code, this will probably annoy you. So to disable it, first open the `boot.py` file, then comment out the import line.
+Dans le cas où vous essayer de tester le code, cela risque de vous gêner. Donc, pour le désactiver, ouvrez le script `boot.py`, puis commentez la ligne d'import du script `data_transmitter.py`.
 
-If you're are stuck in a boot loop, simply click on the output console of Thonny, then press CTRL+C multiple times on your keyboard until the Python interpreter prompt shows up again. Now you can do the previous procedure to disable on boot execution. 
+Si vous êtes bloqués dans une boucle de démarrage, cliquez simplement sur la console de sortie de Thonny, puis entrez le raccourci CTRL+C plusieurs fois jusqu'à ce que l'interpréteur Python réapparaisse. Maintenant, vous pouvez reproduire la procédure précédente pour désactiver l'exécution du script au démarrage.
+
+### 1.1.2. Câblage de l'ESP32 et des capteurs
+
+Voici le schéma de câblage de l'ESP32 et des capteurs sur Wokwi :
+
+![Schéma de câblage de l'ESP32 et des capteurs](./images/circuit-esp32.jpg)  
+
+Dans le cas où vous voulez utiliser une batterie au lieu de connecter l'ESP32 directement à un ordinateur, utilisez un convertisseur de tension configuré pour sortir du 5V puis branchez le câble GND sur le GND du bus d'alimentation et le câble VCC sur le pin 5V de l'ESP32 (et non sur le bus d'alimentation qui doit fournir du 3,3V aux capteurs !).
+
+### 1.1.3. Transfert des scripts sur l'ESP32
+
+Dans notre cas, nous avons utilisé Thonny pour transférer les fichiers mais vous êtes libre d'utiliser n'importe quel outils qui permettent de transférer des fichiers sur la mémoire Flash de l'ESP32.
+
+**1.** Ouvrez Thonny ;  
+**2.** Branchez l'ESP32 de destination sur l'un des ports USB disponibles de votre ordinateur ;  
+**3.** Ouvrez chaque scripts se trouvant dans le dossier `micropython-scripts` dans l'éditeur ;  
+**4.** Pour chaque script, entrez le raccourci clavier CTRL+SHIFT+S et choisissez "MicroPython device" ;  
+**5.** Gardez le même nom de script et terminez le transfert  
+
+À partir de maintenant, l'ESP32 est connectée à tout les capteurs et peut enregistrer des mesures depuis les capteurs. Une fois cela fait, elle publiera les résultat sur le topic "sensor_data" via le borker MQTT sur la Raspberry et auquel la Raspberry elle-même est souscrite pour réceptionner les données.
+
+<hr/>
+
+[**Retour à la table des matières du node**](../README.md)  
+[**Retour à la table des matières principale**](../../README.md)  
+
+<hr/>
