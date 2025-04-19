@@ -15,7 +15,7 @@ Voici l'allure du node sur le schéma d'architecture :
 ## Table des matières
 
 [**1.1.** Comment mettre en place l'ESP32 et les capteurs ?](./esp32/README.md)  
-[**1.2** Comment mettre en place la Raspberry et le HAT SX1262 ?](./raspberry/README.md)  
+[**1.2.** Comment mettre en place la Raspberry et le HAT SX1262 ?](./raspberry/README.md)  
 
 <hr/>
 
