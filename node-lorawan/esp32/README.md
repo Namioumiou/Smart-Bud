@@ -1,4 +1,4 @@
-# Partie ESP32
+# Comment mettre en place l'ESP32 et les capteurs ?
 
 ## Schéma d'architecture  
 

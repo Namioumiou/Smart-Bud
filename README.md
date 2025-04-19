@@ -11,6 +11,6 @@ Le système complet peut se résumer au schéma d'architecture suivant :
 ## Sommaire
 
 [**1.** Comment mettre en place le node LoRaWAN ?](./node-lorawan/README.md)  
-[**2.** Comment mettre en place la gateway LoRaWAN (facultatif si passerelle publique dans les alentours)](./gateway-lorawan/README.md)  
+[**2.** Comment mettre en place la gateway LoRaWAN (facultatif si passerelle publique dans les alentours) ?](./gateway-lorawan/README.md)  
 [**3.** Comment mettre en place la partie The Things Network ?](./the-things-network/README.md)  
 [**4.** Comment mettre en place la partie ThingsBoard ?](./thingsboard/README.md)  

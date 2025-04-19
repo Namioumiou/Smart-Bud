@@ -1,4 +1,4 @@
-# How to setup the Raspberry Pi 5 for a correct communication with the LoRaWAN network
+# 1.2 Comment mettre en place la Raspberry et le HAT SX1262 ?
 
 ## Install the necessary packages
 
